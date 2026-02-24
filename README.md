@@ -212,7 +212,7 @@ Apex-AI/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/learnervivek/Apex-AI.git
+git clone https://github.com/dsv0028/Apex-AI.git
 cd Apex-AI
 ```
 
