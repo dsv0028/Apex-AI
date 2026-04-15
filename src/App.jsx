@@ -12,6 +12,8 @@ import { Dashboard } from "./pages/Dashboard"
 import { Workouts } from "./pages/Workouts"
 import { Analytics } from "./pages/Analytics"
 import { Settings } from "./pages/Settings"
+import { Leaderboard } from "./pages/Leaderboard"
+import { PrivateRoute } from "./components/PrivateRoute"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 function LandingLayout() {
@@ -41,10 +43,15 @@ function App() {
                         <Route path="/signup" element={<Signup />} />
 
                         {/* Protected Dashboard Routes */}
-                        <Route path="/dashboard" element={<DashboardLayout />}>
+                        <Route path="/dashboard" element={
+                            <PrivateRoute>
+                                <DashboardLayout />
+                            </PrivateRoute>
+                        }>
                             <Route index element={<Dashboard />} />
                             <Route path="workouts" element={<Workouts />} />
                             <Route path="analytics" element={<Analytics />} />
+                            <Route path="leaderboard" element={<Leaderboard />} />
                             <Route path="settings" element={<Settings />} />
                         </Route>
                     </Routes>

@@ -13,6 +13,7 @@ import {
     Moon,
     LogOut,
     ChevronDown,
+    Trophy,
 } from "lucide-react"
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom"
 import { useTheme } from "../components/ThemeProvider"
@@ -21,6 +22,7 @@ const navigation = [
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
     { name: "Workouts", href: "/dashboard/workouts", icon: Dumbbell },
     { name: "Analytics", href: "/dashboard/analytics", icon: LineChart },
+    { name: "Leaderboard", href: "/dashboard/leaderboard", icon: Trophy },
     { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ]
 

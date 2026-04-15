@@ -7,6 +7,7 @@ import performanceRoutes from './routes/performanceRoutes.js';
 import trainingRoutes from './routes/trainingRoutes.js';
 import coachRoutes from './routes/coachRoutes.js';
 import profileRoutes from './routes/profileRoutes.js';
+import leaderboardRoutes from './routes/leaderboardRoutes.js';
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use('/api/performance', performanceRoutes);
 app.use('/api/training', trainingRoutes);
 app.use('/api/coach', coachRoutes);
 app.use('/api/profile', profileRoutes);
+app.use('/api/leaderboard', leaderboardRoutes);
 
 app.get('/', (req, res) => {
     res.send('ApexAI API is running...');
