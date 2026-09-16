@@ -1,129 +1,120 @@
-# ⚡ ApexAI — AI-Based Training Platform for Athletes
+# ⚡ ApexAI — AI-Powered Athletic Performance & Training Management Platform
 
-> A full-stack, AI-powered sports performance platform built for athletes and coaches. Features JWT authentication, personalized workout generation, deep performance analytics, coach management, profile settings, and a sleek animated React frontend.
+> A full-stack, enterprise-grade sports performance ecosystem built for athletes and coaches on the MERN stack. Features AI workout generation, real-time Socket.io messaging, interval timer suites, barbell plate calculators, daily recovery check-ins with muscle soreness heatmaps, sports science calculators, video form check reviews, nutrition tracking, periodization calendars, workout logging with 1RM PR benchmarks, automated achievement badges, and 1-click monthly PDF performance report exports.
 
-![Tech Stack](https://img.shields.io/badge/React-JSX-61DAFB?logo=react) ![Node.js](https://img.shields.io/badge/Node.js-Express-339933?logo=node.js) ![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47A248?logo=mongodb) ![JWT](https://img.shields.io/badge/Auth-JWT-000000?logo=jsonwebtoken) ![Vite](https://img.shields.io/badge/Build-Vite-646CFF?logo=vite)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
+![Node.js](https://img.shields.io/badge/Node.js-Express_5-339933?logo=node.js)
+![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose_9-47A248?logo=mongodb)
+![Socket.io](https://img.shields.io/badge/Socket.io-Real--Time-010101?logo=socket.io)
+![JWT](https://img.shields.io/badge/Auth-JWT-000000?logo=jsonwebtoken)
+![Vite](https://img.shields.io/badge/Build-Vite_7-646CFF?logo=vite)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS_v4-38B2AC?logo=tailwind-css)
 
 ---
 
 ## 📋 Table of Contents
 
-- [Features](#-features)
-- [Tech Stack](#-tech-stack)
-- [Project Structure](#-project-structure)
-- [Prerequisites](#-prerequisites)
-- [Getting Started](#-getting-started)
-- [Environment Variables](#-environment-variables)
-- [API Documentation](#-api-documentation)
-  - [Auth Routes](#auth-routes)
-  - [Performance Routes](#performance-routes)
-  - [Training Routes](#training-routes)
-  - [Coach Routes](#coach-routes)
-  - [Profile Routes](#profile-routes)
-- [Frontend Pages](#-frontend-pages)
-- [Role-Based Access](#-role-based-access)
+- [✨ Features Suite](#-features-suite)
+  - [1. 🏋️ Training & Periodization](#1-️-training--periodization)
+  - [2. ⚡ Gym Lab, Recovery & Biometrics](#2--gym-lab-recovery--biometrics)
+  - [3. 👥 Team, Coaching & Social](#3--team-coaching--social)
+  - [4. 📊 Analytics, AI & Gamification](#4--analytics-ai--gamification)
+  - [5. 🔐 Auth, Security & Profile](#5--auth-security--profile)
+- [🛠 Tech Stack](#-tech-stack)
+- [📁 Project Structure](#-project-structure)
+- [🚀 Getting Started](#-getting-started)
+- [⚙️ Environment Variables](#️-environment-variables)
+- [📡 API Documentation](#-api-documentation)
+- [🧭 Sidebar Directory Map](#-sidebar-directory-map)
 
 ---
 
-## ✨ Features
+## ✨ Features Suite
 
-### 🧑‍🤝‍🧑 Authentication
+### 1. 🏋️ Training & Periodization
 
-- User **Signup** with name, email, password, and role selection (`athlete` / `coach`)
-- **Login** with email & password, returning a JWT token
-- Passwords hashed securely with **bcryptjs**
-- JWT stored in `localStorage` for persistent sessions
-- Automatic redirection to dashboard after auth
-- **Sign Out** clears session and redirects to Login
-- Auth-aware landing page navbar — shows **Go to Dashboard** when logged in
+* **AI Training Routine Generator:** Dynamic workout routines generated using Gemini AI based on athlete physical metrics (*Stamina*, *Speed*, *Strength*).
+* **Interactive Workout Timer Modal:** Guided exercise progression with auto-advance, set counters, rest timers, and exercise preview images.
+* **Interactive Training Calendar:** Monthly matrix planner with one-click completion toggles (*Completed*, *Skipped*, *Scheduled*) and training load tracking.
+* **Workout Logging & PR Tracker:** Log sets, weights (kg), reps, and RPE with automated **Epley 1-Rep Max (1RM)** estimation, lifetime tonnage counters, and PR celebratory alerts.
+* **Exercise Library & Custom Routine Builder:** Searchable catalog with muscle group chips, equipment filters, expandable technique guides, pro coaching tips, and a floating custom routine builder tray.
 
-### 📊 Athlete Dashboard
+---
 
-- **AI Readiness Score** — personalized performance indicator (0–100)
-- **Weekly Progress Chart** — area chart of score and training load (Mon–Sun)
-- **Calories Burned** card — latest training load metric
-- **Injury Risk Indicator** — Low / Medium / High badge
-- Dynamic greeting using authenticated user's name
-- Dark / Light theme toggle
+### 2. ⚡ Gym Lab, Recovery & Biometrics
 
-### 🏋️ AI Training Plan
+* **Interval & Circuit Timer Suite:**
+  * **Tabata Mode:** Configurable work/rest intervals and round tracking.
+  * **EMOM Mode:** *Every Minute on the Minute* countdown timers.
+  * **AMRAP Mode:** *As Many Rounds As Possible* with instant tap round counter.
+  * **Stopwatch:** Centisecond stopwatch with split lap tracking.
+  * **Web Audio Sound Synthesis:** In-browser synthesized audio countdown beeps (3, 2, 1) and buzzers without external audio downloads.
+* **Visual Barbell Plate Calculator & Loader:** Color-coded Olympic bumper plate visualizer (🔴 25kg, 🔵 20kg, 🟡 15kg, 🟢 10kg, ⚪ 5kg, 🔴 2.5kg, 🔵 1.25kg, ⚪ 0.5kg) with bar selector (20kg, 15kg, 10kg) and collar clamp weights.
+* **Daily Recovery & Muscle Soreness Heatmap:** Morning biometric check-in (Sleep Hours, Sleep Quality, Stress, Energy) + 10-point muscle soreness rating matrix that dynamically recalculates athlete readiness scores.
+* **Sports Science & Performance Calculators:**
+  * **Wilks & DOTS Coefficients:** Official powerlifting strength comparison normalized against bodyweight and gender.
+  * **Karvonen Heart Rate Zones:** Computes Max HR, Heart Rate Reserve, and training Zones 1 through 5 (*Recovery to VO2 Max*).
+  * **Race Pace & Split Predictor:** Riegel formula race projections for 5k, 10k, Half-Marathon, and Full Marathon.
+  * **1RM Percentage Matrix:** Generates working set weights from 50% to 100% of 1RM with estimated rep ranges.
+* **Daily Nutrition & Macro Target Tracker:** Macro progress rings (*Calories, Protein, Carbs, Fats*), categorized meal logger (*Breakfast, Lunch, Dinner, Snack, Pre/Post-Workout*), and quick-tap hydration counter.
 
-- AI generates a personalized **Today's Workout** based on `stamina`, `speed`, and `strength` stats
-- Workout focuses on **Endurance**, **Speed**, or **Strength** based on the highest stat
-- **Upcoming Schedule** shows 2 future sessions
-- Interactive **Workout Timer Modal** — step through exercises with auto-advance
-- Progress bar tracking workout completion
-- Exercise preview thumbnails with set counters
+---
 
-### 📈 Performance Analytics
+### 3. 👥 Team, Coaching & Social
 
-- **Line Chart** — AI readiness score progress over time
-- **Bar Chart** — weekly training load per day
-- **Radar Chart** — skill profile across 6 dimensions (Endurance, Strength, Speed, Recovery, Consistency, Mental Focus)
-- **Monthly Comparison Cards** — sessions, avg score, avg load, injury risk with % change vs last month
-- **Score vs Load Correlation** — dual-axis line chart overlay
-- Falls back to rich demo data when no real data exists yet
+* **Real-Time Coach-Athlete Messaging:** Instant 1-on-1 direct messaging powered by **Socket.io** with live typing indicators (`"Coach is typing..."`), read status, and contact lists.
+* **Athlete Social Feed & Community Hub:** Activity timeline to share training milestones, attach workout volume summaries, react with emojis (🔥, 👏, ⚡, 🏆), and comment.
+* **Video Form Check & Coach Annotations:** Athletes submit lifting footage; coaches scrub playheads and place **timestamped feedback pins** with severity tags (*Correction, Warning, Praise, Info*).
+* **Coach Team Hub & Multi-Athlete Roster:** Side-by-side athlete readiness matrix, injury risk alerts, and a **Bulk Assign Routine** modal to dispatch workouts to multiple athletes simultaneously.
 
-### 👤 Profile & Settings
+---
 
-- **Upload profile image** (base64, previewed instantly)
-- **Edit athlete details** — name, bio, email
-- **Select sport** from 15 sport options
-- **Set training goals** — add/remove goal tags
-- **Athlete stats sliders** — Stamina, Speed, Strength (used for AI workout generation)
-- **Notification toggles** — Workout Reminders, Performance Alerts, Coach Messages, Weekly Report
-- **Dark / Light mode toggle**
-- **Change password** with current + new + confirm fields
-- Live sync — avatar and name update in the navbar instantly on save
+### 4. 📊 Analytics, AI & Gamification
 
-### 👨‍🏫 Coach Dashboard
+* **Performance Analytics:** Area charts for readiness score progression, weekly training volume bar charts, and 6-dimensional Radar charts (*Endurance, Strength, Speed, Recovery, Consistency, Mental Focus*).
+* **1-Click Monthly PDF Performance Report:** Generates high-resolution branded PDF reports (`ApexAI_Performance_Report.pdf`) containing charts, radar metrics, and coach notes via `jspdf` and `html2canvas`.
+* **Dynamic Badges & Gamification Engine:** Auto-unlocks milestones (*Century Club 100kg*, *7-Day Iron Will*, *10 Tonne Club*, *Hydration Champion*) with celebratory `canvas-confetti` bursts.
+* **AI Coach Consultation:** Interactive sports consultation chat powered by Google Gemini API.
+* **Global Leaderboard:** Global athlete rankings filtered by Readiness Score, Training Load, and Consistency.
 
-- Coaches can list **all registered athletes**
-- View any athlete's **performance chart** data
-- **Assign custom training plans** to specific athletes
-- Submit **feedback with ratings (1–5)** and comments for athletes
-- All coach routes are locked behind role-based middleware
+---
 
-### 🎨 UI/UX
+### 5. 🔐 Auth, Security & Profile
 
-- Glassmorphism design with brand color system
-- **Framer Motion** animations and staggered transitions
-- Fully **responsive** — mobile sidebar + desktop top navbar
-- Dark / Light mode with system preference detection
-- Animated auth layout with floating background gradients
-- Skeleton loading states on all data-fetching pages
+* **JWT Authentication:** Stateless auth with `bcryptjs` password hashing and role-based guards (`athlete` vs `coach`).
+* **Profile & Physical Metrics:** Profile avatar upload, athletic bio, sport selection (15+ disciplines), and physical sliders (*Stamina, Speed, Strength*) that feed directly into AI workout generation.
+* **Dark / Light Glassmorphic Theme:** System preference detection and instant toggle with Framer Motion transitions.
 
 ---
 
 ## 🛠 Tech Stack
 
 ### Frontend
-
-| Technology       | Purpose                                            |
-| ---------------- | -------------------------------------------------- |
-| React 19 (JSX)   | UI framework                                       |
-| Vite             | Build tool & dev server                            |
-| Framer Motion    | Animations & transitions                           |
-| Recharts         | Data visualization (Line, Bar, Radar, Area charts) |
-| Lucide React     | Icon library                                       |
-| Axios            | API communication                                  |
-| React Router DOM | Client-side routing                                |
-| Tailwind CSS v4  | Utility-first styling                              |
+| Technology | Version | Purpose |
+| :--- | :--- | :--- |
+| **React** | `19.2.0` | Modern UI component framework |
+| **Vite** | `7.3.1` | Lightning-fast build tool & dev server |
+| **Tailwind CSS** | `4.2.0` | Utility-first styling & design tokens |
+| **Framer Motion** | `12.34.3` | Fluid page transitions & spring animations |
+| **Recharts** | `3.7.0` | Line, Bar, Area, and Radar data visualizations |
+| **Socket.io Client** | `4.8.3` | Real-time WebSocket bidirectional messaging |
+| **jsPDF & html2canvas** | `^4.2` / `^1.4` | Client-side vector PDF report card generation |
+| **canvas-confetti** | `^1.9.4` | Celebratory milestone and PR particle animations |
+| **Lucide React** | `0.575.0` | Iconography suite |
+| **Axios** | `1.13.5` | Promise-based REST API client |
+| **React Router DOM** | `7.13.0` | Client-side routing with protected route guards |
 
 ### Backend
-
-| Technology            | Purpose                       |
-| --------------------- | ----------------------------- |
-| Node.js               | JavaScript runtime            |
-| Express.js v5         | Web framework                 |
-| MongoDB               | NoSQL database                |
-| Mongoose 9            | ODM for MongoDB               |
-| JSON Web Tokens       | Authentication                |
-| bcryptjs              | Password hashing              |
-| dotenv                | Environment variables         |
-| cors                  | Cross-origin resource sharing |
-| express-async-handler | Async error handling          |
-| nodemon               | Dev server hot-reload         |
+| Technology | Version | Purpose |
+| :--- | :--- | :--- |
+| **Node.js & Express** | `5.2.1` | REST API runtime & web framework |
+| **MongoDB & Mongoose** | `9.2.1` | Object Data Modeling (ODM) database |
+| **Socket.io Server** | `4.8.3` | WebSocket server for real-time rooms & events |
+| **JSON Web Tokens (JWT)**| `9.0.3` | Stateless token authorization |
+| **bcryptjs** | `3.0.3` | Password encryption & salt hashing |
+| **Google Generative AI**| `0.24.1` | Gemini AI coaching & workout generation |
+| **Multer** | `^2.0.2` | Multipart upload handling for video & media |
+| **CORS & Dotenv** | — | Cross-origin resource sharing & environment loading |
 
 ---
 
@@ -131,508 +122,259 @@
 
 ```
 Apex-AI/
-├── index.html                    # Vite entry point
-├── vite.config.js                # Vite configuration
+├── index.html                    # Frontend entry
+├── vite.config.js                # Vite build config
 ├── package.json                  # Frontend dependencies
 │
 ├── src/
-│   ├── main.jsx                  # React app entry
-│   ├── App.jsx                   # Root app with routing
-│   ├── index.css                 # Global styles + Tailwind
+│   ├── main.jsx                  # React application root
+│   ├── App.jsx                   # Application router & layout guards
+│   ├── index.css                 # Global Tailwind styles & design tokens
 │   │
 │   ├── components/
 │   │   ├── ThemeProvider.jsx     # Dark/Light mode context
-│   │   ├── Navbar.jsx            # Auth-aware landing page nav
+│   │   ├── Navbar.jsx            # Landing page navbar
 │   │   ├── Hero.jsx              # Landing hero section
 │   │   ├── Features.jsx          # Feature showcase
-│   │   ├── HowItWorks.jsx        # Process walkthrough
-│   │   ├── Testimonials.jsx      # User testimonials
-│   │   ├── Footer.jsx            # Site footer
-│   │   └── WorkoutTimerModal.jsx # Animated workout timer
+│   │   ├── HowItWorks.jsx        # Platform workflow
+│   │   ├── Testimonials.jsx      # Social proof
+│   │   ├── Footer.jsx            # Footer
+│   │   ├── PrivateRoute.jsx      # Auth verification wrapper
+│   │   └── WorkoutTimerModal.jsx # Active workout step timer
 │   │
 │   ├── layouts/
-│   │   ├── AuthLayout.jsx        # Split-screen auth wrapper
-│   │   └── DashboardLayout.jsx   # Sidebar + top navbar shell
+│   │   ├── AuthLayout.jsx        # Split-screen auth layout
+│   │   └── DashboardLayout.jsx   # 4-Section categorized sidebar layout
 │   │
-│   ├── pages/
-│   │   ├── Login.jsx             # Login form with JWT auth
-│   │   ├── Signup.jsx            # Signup with role selection
-│   │   ├── Dashboard.jsx         # Main analytics dashboard
-│   │   ├── Workouts.jsx          # AI training plan page
-│   │   ├── Analytics.jsx         # Performance analytics charts
-│   │   └── Settings.jsx          # Profile & settings page
-│   │
-│   └── lib/
-│       └── utils.js              # Utility helpers (cn)
+│   └── pages/
+│       ├── Login.jsx             # User login
+│       ├── Signup.jsx            # User registration with role selection
+│       ├── Dashboard.jsx         # Executive overview & readiness score
+│       ├── Workouts.jsx          # AI workout generation & timer
+│       ├── Calendar.jsx          # Periodization training calendar
+│       ├── WorkoutLogs.jsx       # Volume logging, PRs & Badge showcase
+│       ├── ExerciseLibrary.jsx   # Movement catalog & routine builder
+│       ├── TimerSuite.jsx        # Tabata, EMOM, AMRAP, Stopwatch
+│       ├── PlateCalculator.jsx   # Visual Olympic barbell plate loader
+│       ├── Recovery.jsx          # Muscle soreness heatmap & check-in
+│       ├── Calculators.jsx       # Wilks, DOTS, HR Zones, Race Pace
+│       ├── CoachRoster.jsx       # Team roster & bulk workout assigner
+│       ├── Messages.jsx          # Real-time Socket.io coach-athlete chat
+│       ├── Community.jsx         # Social activity stream & cheer reactions
+│       ├── Nutrition.jsx         # Daily macros & hydration tracking
+│       ├── VideoReview.jsx       # Video form check & timestamp notes
+│       ├── Analytics.jsx         # Charts & 1-click PDF export
+│       ├── AIChat.jsx            # Gemini AI sports consultation
+│       ├── Leaderboard.jsx       # Global rankings
+│       └── Settings.jsx          # Profile, physical sliders & credentials
 │
 └── server/
-    ├── server.js                 # Express app & middleware
+    ├── server.js                 # Express app, HTTP & Socket.io server
     ├── package.json              # Backend dependencies
-    ├── .env                      # Environment variables (not in git)
+    ├── .env                      # Environment variables (git-ignored)
     │
     ├── config/
     │   └── db.js                 # MongoDB connection setup
     │
     ├── models/
-    │   ├── User.js               # User schema (name, email, role, profile, stats)
-    │   ├── Performance.js        # Daily performance logs
-    │   ├── Workout.js            # Workout plans + exercises
-    │   └── Feedback.js           # Coach feedback schema
+    │   ├── User.js               # User accounts, roles, physical stats
+    │   ├── Performance.js        # Daily readiness & load logs
+    │   ├── Workout.js            # Generated workouts & exercises
+    │   ├── WorkoutLog.js         # Logged workouts, sets, tonnage, PRs
+    │   ├── Schedule.js           # Calendar training sessions
+    │   ├── Exercise.js           # Exercise catalog & custom exercises
+    │   ├── Conversation.js       # Direct chat conversation threads
+    │   ├── Message.js            # Direct chat messages
+    │   ├── Post.js               # Community posts, cheers, comments
+    │   ├── Nutrition.js          # Daily meals, calories, macros, water
+    │   ├── VideoReview.js        # Video clips & timestamped coach pins
+    │   ├── Achievement.js        # Badge definitions & user unlocks
+    │   ├── RecoveryLog.js        # Sleep, stress, soreness check-ins
+    │   ├── TeamAssignment.js     # Coach bulk assignment records
+    │   └── Feedback.js           # Coach athlete feedback ratings
     │
     ├── controllers/
-    │   ├── authController.js     # Register & login logic
-    │   ├── performanceController.js # Analytics CRUD + monthly + radar
-    │   ├── trainingController.js # AI workout generation
-    │   ├── coachController.js    # Coach management APIs
-    │   └── profileController.js  # Profile get/update/password
+    │   ├── authController.js
+    │   ├── performanceController.js
+    │   ├── trainingController.js
+    │   ├── workoutLogController.js
+    │   ├── scheduleController.js
+    │   ├── exerciseController.js
+    │   ├── messageController.js
+    │   ├── postController.js
+    │   ├── nutritionController.js
+    │   ├── videoReviewController.js
+    │   ├── achievementController.js
+    │   ├── recoveryController.js
+    │   ├── coachRosterController.js
+    │   ├── coachController.js
+    │   ├── chatController.js
+    │   └── profileController.js
     │
     ├── routes/
-    │   ├── authRoutes.js         # /api/auth/*
-    │   ├── performanceRoutes.js  # /api/performance/*
-    │   ├── trainingRoutes.js     # /api/training/*
-    │   ├── coachRoutes.js        # /api/coach/*
-    │   └── profileRoutes.js      # /api/profile/*
+    │   ├── authRoutes.js
+    │   ├── performanceRoutes.js
+    │   ├── trainingRoutes.js
+    │   ├── workoutLogRoutes.js
+    │   ├── scheduleRoutes.js
+    │   ├── exerciseRoutes.js
+    │   ├── messageRoutes.js
+    │   ├── postRoutes.js
+    │   ├── nutritionRoutes.js
+    │   ├── videoReviewRoutes.js
+    │   ├── achievementRoutes.js
+    │   ├── recoveryRoutes.js
+    │   ├── coachRosterRoutes.js
+    │   ├── coachRoutes.js
+    │   ├── chatRoutes.js
+    │   └── profileRoutes.js
     │
-    └── middleware/
-        └── authMiddleware.js     # JWT protect + coachGuard
+    ├── middleware/
+    │   └── authMiddleware.js     # JWT verification & coachGuard
+    │
+    └── scripts/
+        ├── seedUser.js           # Direct MongoDB user seed script
+        └── registerUser.js       # CLI register endpoint tester
 ```
-
----
-
-## 📦 Prerequisites
-
-- **Node.js** v18 or higher
-- **npm** v9 or higher
-- **MongoDB** running locally on port `27017`
 
 ---
 
 ## 🚀 Getting Started
 
-### 1. Clone the Repository
+### Prerequisites
+- **Node.js** (v18.0.0 or higher)
+- **MongoDB** (Local instance running at `mongodb://localhost:27017` or MongoDB Atlas URI)
 
-```bash
+### 1. Clone & Install Dependencies
+
+```powershell
+# Clone the repository
 git clone https://github.com/dsv0028/Apex-AI.git
 cd Apex-AI
-```
 
-### 2. Set Up the Backend
+# Install frontend dependencies
+npm install
 
-```bash
+# Install backend dependencies
 cd server
 npm install
+cd ..
 ```
 
-Create the `.env` file inside the `server/` directory:
-
-```bash
-cp .env.example .env  # or create manually — see Environment Variables below
-```
-
-Start the backend server:
-
-```bash
-npm start           # production
-# or with hot-reload:
-npm run dev
-```
-
-The backend will start at **http://localhost:5001**
-
-### 3. Set Up the Frontend
-
-Open a new terminal tab:
-
-```bash
-cd Apex-AI        # root directory
-npm install
-npm run dev
-```
-
-The frontend will start at **http://localhost:5173** (or `5174` if port is busy)
-
-### 4. Open the App
-
-Navigate to **http://localhost:5173** in your browser. Sign up for a new account to get started!
-
----
-
-## 🔐 Environment Variables
-
-Create a `.env` file in the `/server` directory:
+### 2. Configure Environment Variables
+Create a file at `server/.env`:
 
 ```env
 NODE_ENV=development
-PORT=5001
+API_PORT=5001
 MONGO_URI=mongodb://localhost:27017/apexai
-JWT_SECRET=your_super_secret_key_here
+JWT_SECRET=supersecret123
+GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
-| Variable     | Description                   | Example                            |
-| ------------ | ----------------------------- | ---------------------------------- |
-| `NODE_ENV`   | Environment mode              | `development`                      |
-| `PORT`       | Backend server port           | `5001`                             |
-| `MONGO_URI`  | MongoDB connection string     | `mongodb://localhost:27017/apexai` |
-| `JWT_SECRET` | Secret for signing JWT tokens | Any long random string             |
+### 3. Seed Default Sample User (Optional)
+```powershell
+cd server
+node scripts/seedUser.js
+cd ..
+```
+* **Default Login:** `divyanshu@example.com` / `Password123`
 
-> ⚠️ Never commit your `.env` file to version control. It is already listed in `.gitignore`.
+### 4. Run Locally
+
+Open two terminal windows:
+
+* **Terminal 1 (Backend API & Socket.io Server):**
+  ```powershell
+  cd server
+  npm run dev
+  ```
+  *Server runs at `http://localhost:5001`*
+
+* **Terminal 2 (Vite Frontend):**
+  ```powershell
+  npm run dev
+  ```
+  *Frontend runs at `http://localhost:5173`*
 
 ---
 
 ## 📡 API Documentation
 
-All protected routes require a `Bearer` token in the `Authorization` header:
+All protected routes require an `Authorization: Bearer <jwt_token>` header.
+
+| Method | Endpoint | Description | Access |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/api/auth/register` | Register new athlete or coach | Public |
+| `POST` | `/api/auth/login` | Authenticate user & return JWT | Public |
+| `GET` | `/api/profile/me` | Fetch authenticated user profile | Private |
+| `PUT` | `/api/profile/me` | Update bio, stats, sport, avatar | Private |
+| `GET` | `/api/training/today` | Generate/fetch today's AI workout | Private |
+| `GET` | `/api/performance/:userId` | Get weekly score & load trends | Private |
+| `GET` | `/api/performance/radar/:userId` | Get 6-dimension skill radar | Private |
+| `GET` | `/api/logs` | Fetch workout history, volume & PRs | Private |
+| `POST` | `/api/logs` | Log completed session with sets/reps | Private |
+| `GET` | `/api/schedule` | Get scheduled training calendar | Private |
+| `POST` | `/api/schedule` | Schedule a future training routine | Private |
+| `PATCH`| `/api/schedule/:id/status` | Mark completed / skipped | Private |
+| `GET` | `/api/exercises` | Browse catalog (filter by muscle/eq) | Private |
+| `POST` | `/api/exercises` | Create user custom exercise | Private |
+| `GET` | `/api/messages/users` | Get chat contacts & roster | Private |
+| `GET` | `/api/messages/:recipientId` | Get message thread history | Private |
+| `POST` | `/api/messages` | Send direct message (Socket.io) | Private |
+| `GET` | `/api/posts` | Get community activity stream | Private |
+| `POST` | `/api/posts` | Share workout update or PR | Private |
+| `POST` | `/api/posts/:id/react` | Toggle cheer reaction (🔥, 👏, ⚡, 🏆) | Private |
+| `GET` | `/api/nutrition` | Get daily macros, meals, hydration | Private |
+| `POST` | `/api/nutrition/meal` | Log meal (protein, carbs, fats) | Private |
+| `POST` | `/api/nutrition/water` | Update hydration (+/- ml) | Private |
+| `GET` | `/api/video-reviews` | Get form check video reviews | Private |
+| `POST` | `/api/video-reviews` | Submit lifting video clip | Private |
+| `POST` | `/api/video-reviews/:id/annotations` | Coach pins timestamped note | Coach |
+| `GET` | `/api/achievements` | Get milestone badges & streak | Private |
+| `GET` | `/api/recovery` | Get sleep & soreness check-in | Private |
+| `POST` | `/api/recovery` | Submit daily recovery log | Private |
+| `GET` | `/api/roster` | Get team readiness comparison matrix | Coach |
+| `POST` | `/api/roster/bulk-assign` | Bulk deploy routine to athletes | Coach |
+| `POST` | `/api/chat` | Query AI sports coach (Gemini) | Private |
+| `GET` | `/api/leaderboard` | Get global athlete rankings | Private |
+
+---
+
+## 🧭 Sidebar Directory Map
+
+The dashboard sidebar is organized into 4 logical categories:
 
 ```
-Authorization: Bearer <your_jwt_token>
+ApexAI Navigation
+├── 🏋️ TRAINING
+│   ├── Overview          (/dashboard)
+│   ├── Workouts          (/dashboard/workouts)
+│   ├── Calendar          (/dashboard/calendar)
+│   ├── Workout Log       (/dashboard/logs)
+│   └── Exercises         (/dashboard/exercises)
+│
+├── ⚡ GYM LAB & RECOVERY
+│   ├── Timers            (/dashboard/timers)
+│   ├── Plate Calc        (/dashboard/plate-calculator)
+│   ├── Recovery          (/dashboard/recovery)
+│   ├── Calculators       (/dashboard/calculators)
+│   └── Nutrition         (/dashboard/nutrition)
+│
+├── 👥 TEAM & COACHING
+│   ├── Messages          (/dashboard/messages)
+│   ├── Community         (/dashboard/community)
+│   ├── Video Review      (/dashboard/video-review)
+│   └── Coach Hub         (/dashboard/roster)
+│
+└── 📊 ANALYTICS & AI
+    ├── Analytics         (/dashboard/analytics)
+    ├── AI Coach          (/dashboard/ai-coach)
+    ├── Leaderboard       (/dashboard/leaderboard)
+    └── Settings          (/dashboard/settings)
 ```
-
----
-
-### Auth Routes
-
-**Base URL:** `/api/auth`
-
-#### `POST /api/auth/register`
-
-Register a new user.
-
-**Request Body:**
-
-```json
-{
-  "name": "Divyanshu Verma",
-  "email": "divyanshu@example.com",
-  "password": "password123",
-  "role": "athlete"
-}
-```
-
-{
-"password": "Password123"
-
-**Response `201`:**
-
-```json
-    "password": "Password123"
-  "_id": "64a...",
-  "name": "Divyanshu Verma",
-  "email": "divyanshu@example.com",
-  "role": "athlete",
-  "token": "eyJhbGciOiJIUzI1NiIsInR5..."
-}
-```
-
----
-
-#### `POST /api/auth/login`
-
-Login with existing credentials.
-
-**Request Body:**
-
-```json
-{
-  "email": "divyanshu@example.com",
-  "password": "password123"
-}
-```
-
-**Response `200`:**
-
-```json
-{
-  "_id": "64a...",
-  "name": "Divyanshu Verma",
-  "email": "divyanshu@example.com",
-  "role": "athlete",
-  "token": "eyJhbGciOiJIUzI1NiIsInR5..."
-}
-```
-
----
-
-### Performance Routes
-
-**Base URL:** `/api/performance` | 🔒 Requires JWT
-
-#### `POST /api/performance`
-
-Log a daily performance entry.
-
-**Request Body:**
-
-```json
-{
-  "aiScore": 87,
-  "trainingLoad": 650,
-  "injuryRisk": "Low",
-  "date": "2026-02-21"
-}
-```
-
----
-
-#### `GET /api/performance/:userId`
-
-Get the last 7 days of performance, grouped by weekday for chart rendering.
-
-**Response `200`:**
-
-```json
-[
-  { "id": "...", "day": "Mon", "score": 72, "load": 550 },
-  { "id": "...", "day": "Sat", "score": 95, "load": 850 }
-]
-```
-
----
-
-#### `GET /api/performance/summary/:userId`
-
-Get the latest performance snapshot for dashboard cards.
-
-**Response `200`:**
-
-```json
-{
-  "aiScore": 95,
-  "trainingLoad": 850,
-  "injuryRisk": "Low",
-  "lastUpdated": "2026-02-21T07:12:26.580Z"
-}
-```
-
----
-
-#### `GET /api/performance/monthly/:userId`
-
-Get current vs previous month comparison with % changes.
-
-**Response `200`:**
-
-```json
-{
-  "thisMonth": {
-    "sessions": 18,
-    "avgScore": 86,
-    "avgLoad": 640,
-    "injuryRisk": "Low"
-  },
-  "lastMonth": {
-    "sessions": 14,
-    "avgScore": 79,
-    "avgLoad": 590,
-    "injuryRisk": "Low"
-  },
-  "changes": { "sessions": 29, "avgScore": 9, "avgLoad": 8 }
-}
-```
-
----
-
-#### `GET /api/performance/radar/:userId`
-
-Get skill radar chart data derived from workouts and performance history.
-
-**Response `200`:**
-
-```json
-[
-  { "skill": "Endurance", "value": 84 },
-  { "skill": "Strength", "value": 71 },
-  { "skill": "Speed", "value": 77 },
-  { "skill": "Recovery", "value": 89 },
-  { "skill": "Consistency", "value": 78 },
-  { "skill": "Mental Focus", "value": 93 }
-]
-```
-
----
-
-### Training Routes
-
-**Base URL:** `/api/training` | 🔒 Requires JWT
-
-#### `POST /api/training/generate`
-
-Generate a personalized AI training plan based on user stats.
-
-**Request Body:**
-
-```json
-{
-  "stamina": 85,
-  "speed": 60,
-  "strength": 75
-}
-```
-
-**AI Logic:**
-
-- Highest stat wins → focus area is `Endurance`, `Speed`, or `Strength`
-- Duration: Endurance = 60 min, others = 45 min
-- Calories: Endurance = 600 kcal, others = 450 kcal
-
----
-
-#### `GET /api/training/:userId`
-
-Fetch active (pending) training plan for a user.
-
----
-
-#### `PUT /api/training/progress`
-
-Mark a workout as completed.
-
-**Request Body:**
-
-```json
-{
-  "workoutId": "64a...",
-  "status": "Completed"
-}
-```
-
----
-
-### Coach Routes
-
-**Base URL:** `/api/coach` | 🔒 Requires JWT + `coach` role
-
-#### `GET /api/coach/athletes`
-
-List all registered athletes.
-
-#### `GET /api/coach/performance/:athleteId`
-
-View an athlete's weekly performance chart data.
-
-#### `POST /api/coach/assign-training`
-
-Assign a custom training plan to an athlete.
-
-#### `POST /api/coach/feedback`
-
-Submit feedback (rating 1–5 + comments) for an athlete.
-
----
-
-### Profile Routes
-
-**Base URL:** `/api/profile` | 🔒 Requires JWT
-
-#### `GET /api/profile/me`
-
-Get the current user's full profile.
-
-**Response `200`:**
-
-```json
-{
-  "_id": "64a...",
-  "name": "Divyanshu Verma",
-  "email": "divyanshu@example.com",
-  "role": "athlete",
-  "bio": "Sprinter and fitness enthusiast",
-  "sport": "Running",
-  "goals": ["Run 5km under 25min", "Improve VO2 max"],
-  "profileImage": "<base64 string>",
-  "stats": { "stamina": 80, "speed": 70, "strength": 65 },
-  "notifications": {
-    "workoutReminders": true,
-    "performanceAlerts": true,
-    "coachMessages": true,
-    "weeklyReport": false
-  }
-}
-```
-
----
-
-#### `PUT /api/profile/me`
-
-Update profile fields (any combination of the fields below).
-
-**Request Body:**
-
-```json
-{
-  "name": "Divyanshu Verma",
-  "bio": "Updated bio",
-  "sport": "Running",
-  "goals": ["Run 5km under 25min"],
-  "profileImage": "<base64 data URL>",
-  "stats": { "stamina": 85, "speed": 75, "strength": 70 },
-  "notifications": { "weeklyReport": true }
-}
-```
-
----
-
-#### `PUT /api/profile/password`
-
-Change the account password.
-
-**Request Body:**
-
-```json
-{
-  "currentPassword": "oldpassword",
-  "newPassword": "newpassword123"
-}
-```
-
----
-
-## 📱 Frontend Pages
-
-| Route                  | Component       | Description                                      |
-| ---------------------- | --------------- | ------------------------------------------------ |
-| `/`                    | Landing Page    | Hero, Features, Testimonials — auth-aware navbar |
-| `/login`               | `Login.jsx`     | JWT login form                                   |
-| `/signup`              | `Signup.jsx`    | Signup with role selection                       |
-| `/dashboard`           | `Dashboard.jsx` | Performance overview + charts                    |
-| `/dashboard/workouts`  | `Workouts.jsx`  | AI training plan + workout timer                 |
-| `/dashboard/analytics` | `Analytics.jsx` | Line, Bar, Radar charts + monthly comparison     |
-| `/dashboard/settings`  | `Settings.jsx`  | Profile image, bio, sport, goals, notifications  |
-
----
-
-## 🛡 Role-Based Access
-
-| Feature                    | Athlete | Coach |
-| -------------------------- | ------- | ----- |
-| View own dashboard         | ✅      | ✅    |
-| Log performance            | ✅      | ❌    |
-| Generate training plan     | ✅      | ❌    |
-| View own workout timer     | ✅      | ❌    |
-| View analytics charts      | ✅      | ✅    |
-| Edit own profile           | ✅      | ✅    |
-| List all athletes          | ❌      | ✅    |
-| View athlete performance   | ❌      | ✅    |
-| Assign training to athlete | ❌      | ✅    |
-| Submit feedback            | ❌      | ✅    |
-
----
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch: `git checkout -b feature/my-feature`
-3. Commit your changes: `git commit -m 'Add my feature'`
-4. Push to the branch: `git push origin feature/my-feature`
-5. Open a Pull Request
 
 ---
 
 ## 📄 License
-
-This project is licensed under the MIT License.
-
----
-
-<div align="center">
-  Built with ❤️ using React, Node.js, and MongoDB
-</div>
+This project is open-source under the [ISC License](LICENSE).
