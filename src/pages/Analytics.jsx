@@ -9,9 +9,11 @@ import {
 import {
     TrendingUp, TrendingDown, Minus,
     Activity, Flame, HeartPulse, Calendar,
-    Dumbbell, Zap, Target,
+    Dumbbell, Zap, Target, FileText, Download, Loader2,
 } from "lucide-react"
 import axios from "axios"
+import jsPDF from "jspdf"
+import html2canvas from "html2canvas"
 
 const API_BASE = "http://localhost:5001/api"
 
@@ -119,6 +121,34 @@ export function Analytics() {
     const [monthly, setMonthly] = useState(null)
     const [radar, setRadar] = useState([])
     const [loading, setLoading] = useState(false)
+    const [isExporting, setIsExporting] = useState(false)
+
+    const handleExportPdf = async () => {
+        const reportElement = document.getElementById("analytics-report")
+        if (!reportElement) return
+
+        try {
+            setIsExporting(true)
+            const canvas = await html2canvas(reportElement, {
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                backgroundColor: "#0b0f19",
+            })
+            const imgData = canvas.toDataURL("image/png")
+            const pdf = new jsPDF({
+                orientation: "portrait",
+                unit: "px",
+                format: [canvas.width, canvas.height],
+            })
+            pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height)
+            pdf.save(`ApexAI_Performance_Report_${userInfo?.name?.replace(/\s+/g, "_") || "Athlete"}.pdf`)
+        } catch (err) {
+            console.error("Failed to generate PDF:", err)
+        } finally {
+            setIsExporting(false)
+        }
+    }
 
     useEffect(() => {
         if (!userId) {
@@ -143,7 +173,7 @@ export function Analytics() {
     }, [userId])
 
     // ── use real data if available, otherwise fall back to mock demo ──
-    const weeklyData = weekly.length > 0 ? weekly : MOCK_WEEKLY
+    const weeklyData = weekly.length >= 2 ? weekly : MOCK_WEEKLY;
     const radarData = radar.length > 0 ? radar : MOCK_RADAR
     const monthlyData = monthly ?? MOCK_MONTHLY
 
@@ -151,73 +181,43 @@ export function Analytics() {
     const lm = monthlyData.lastMonth
     const ch = monthlyData.changes
 
-
     return (
         <motion.div
+            id="analytics-report"
             variants={container}
             initial="hidden"
             animate="show"
-            className="max-w-7xl mx-auto space-y-8"
+            className="max-w-7xl mx-auto space-y-5 p-2 sm:p-4 rounded-3xl"
         >
             {/* ── Header ── */}
-            <motion.div variants={item}>
-                <h1 className="text-3xl font-bold tracking-tight">Performance Analytics</h1>
-                <p className="text-foreground/60 mt-1">
-                    Deep dive into your training metrics, trends, and skill development.
-                </p>
+            <motion.div variants={item} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h1 className="text-3xl font-bold tracking-tight">Performance Analytics</h1>
+                    <p className="text-foreground/60 mt-1">
+                        Deep dive into your training metrics, trends, and skill development.
+                    </p>
+                </div>
+
+                <button
+                    onClick={handleExportPdf}
+                    disabled={isExporting}
+                    className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-500 hover:bg-brand-600 disabled:opacity-50 text-white font-semibold text-sm shadow-lg shadow-brand-500/20 transition-all hover:scale-[1.02]"
+                >
+                    {isExporting ? (
+                        <>
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                            Exporting PDF...
+                        </>
+                    ) : (
+                        <>
+                            <FileText className="h-4 w-4" />
+                            Export PDF Report Card
+                        </>
+                    )}
+                </button>
             </motion.div>
 
-            {/* ── Monthly Comparison Cards ── */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {loading ? (
-                    Array.from({ length: 4 }).map((_, i) => (
-                        <motion.div key={i} variants={item}>
-                            <Skeleton className="h-44 w-full" />
-                        </motion.div>
-                    ))
-                ) : (
-                    <>
-                        <StatCard
-                            icon={Calendar}
-                            iconColor="text-brand-500"
-                            bgColor="bg-brand-500/10"
-                            label="Sessions This Month"
-                            thisMonth={tm?.sessions ?? 0}
-                            lastMonth={lm?.sessions ?? 0}
-                            change={ch?.sessions ?? 0}
-                        />
-                        <StatCard
-                            icon={Activity}
-                            iconColor="text-emerald-500"
-                            bgColor="bg-emerald-500/10"
-                            label="Avg AI Score"
-                            thisMonth={tm?.avgScore ?? 0}
-                            lastMonth={lm?.avgScore ?? 0}
-                            unit="/100"
-                            change={ch?.avgScore ?? 0}
-                        />
-                        <StatCard
-                            icon={Flame}
-                            iconColor="text-orange-500"
-                            bgColor="bg-orange-500/10"
-                            label="Avg Training Load"
-                            thisMonth={tm?.avgLoad ?? 0}
-                            lastMonth={lm?.avgLoad ?? 0}
-                            unit="kcal"
-                            change={ch?.avgLoad ?? 0}
-                        />
-                        <StatCard
-                            icon={HeartPulse}
-                            iconColor="text-rose-500"
-                            bgColor="bg-rose-500/10"
-                            label="Injury Risk"
-                            thisMonth={tm?.injuryRisk ?? "—"}
-                            lastMonth={lm?.injuryRisk ?? "—"}
-                            change={0}
-                        />
-                    </>
-                )}
-            </div>
+
 
             {/* ── Line Chart + Bar Chart Row ── */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -433,7 +433,8 @@ export function Analytics() {
                             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="currentColor" className="text-border/20" />
                             <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fill: "currentColor", opacity: 0.5, fontSize: 12 }} dy={10} />
                             <YAxis yAxisId="left" domain={[0, 100]} axisLine={false} tickLine={false} tick={{ fill: "currentColor", opacity: 0.5, fontSize: 12 }} />
-                            <YAxis yAxisId="right" orientation="right" axisLine={false} tickLine={false} tick={false} />
+                            {/* Width 0 prevents the hidden axis from taking 60px of empty space */}
+                            <YAxis yAxisId="right" orientation="right" axisLine={false} tickLine={false} tick={false} width={0} />
                             <Tooltip content={<CustomTooltip />} />
                             <Legend
                                 wrapperStyle={{ fontSize: "12px", paddingTop: "16px", opacity: 0.7 }}

@@ -4,38 +4,37 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 
 // ─── Exercise image pool ───────────────────────────────────────────────────────
 const EXERCISE_IMAGES = {
-    warmup:   'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&auto=format&fit=crop&q=60',
-    cardio:   'https://images.unsplash.com/photo-1538805060514-97d9cc17730c?w=800&auto=format&fit=crop&q=60',
+    warmup: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&auto=format&fit=crop&q=60',
+    cardio: 'https://images.unsplash.com/photo-1538805060514-97d9cc17730c?w=800&auto=format&fit=crop&q=60',
     strength: 'https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=800&auto=format&fit=crop&q=60',
-    hiit:     'https://images.unsplash.com/photo-1434682881908-b43d0467b798?w=800&auto=format&fit=crop&q=60',
+    hiit: 'https://images.unsplash.com/photo-1434682881908-b43d0467b798?w=800&auto=format&fit=crop&q=60',
     cooldown: 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=800&auto=format&fit=crop&q=60',
-    running:  'https://images.unsplash.com/photo-1461896836934-bd45ba20b519?w=800&auto=format&fit=crop&q=60',
-    yoga:     'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&auto=format&fit=crop&q=60',
-    default:  'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&auto=format&fit=crop&q=60',
+    running: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=800&auto=format&fit=crop&q=60',
+    yoga: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&auto=format&fit=crop&q=60',
+    default: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&auto=format&fit=crop&q=60',
 };
 
 // Pick a relevant image based on exercise name keywords
 function pickImage(exerciseName) {
     const name = exerciseName.toLowerCase();
-    if (name.includes('warm') || name.includes('stretch'))    return EXERCISE_IMAGES.warmup;
-    if (name.includes('cool') || name.includes('rest'))        return EXERCISE_IMAGES.cooldown;
-    if (name.includes('run') || name.includes('jog'))          return EXERCISE_IMAGES.running;
-    if (name.includes('sprint') || name.includes('hiit'))      return EXERCISE_IMAGES.hiit;
-    if (name.includes('yoga') || name.includes('mobility'))    return EXERCISE_IMAGES.yoga;
+    if (name.includes('warm') || name.includes('stretch')) return EXERCISE_IMAGES.warmup;
+    if (name.includes('cool') || name.includes('rest')) return EXERCISE_IMAGES.cooldown;
+    if (name.includes('run') || name.includes('jog')) return EXERCISE_IMAGES.running;
+    if (name.includes('sprint') || name.includes('hiit')) return EXERCISE_IMAGES.hiit;
+    if (name.includes('yoga') || name.includes('mobility')) return EXERCISE_IMAGES.yoga;
     if (name.includes('squat') || name.includes('deadlift') ||
         name.includes('press') || name.includes('lift') ||
-        name.includes('curl'))                                 return EXERCISE_IMAGES.strength;
-    if (name.includes('jump') || name.includes('burpee'))      return EXERCISE_IMAGES.cardio;
+        name.includes('curl')) return EXERCISE_IMAGES.strength;
+    if (name.includes('jump') || name.includes('burpee')) return EXERCISE_IMAGES.cardio;
     return EXERCISE_IMAGES.default;
 }
 
 // ─── Gemini AI workout generation ──────────────────────────────────────────────
 async function generateWithGemini(stamina, speed, strength, userName) {
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.GEMINI_API_KEY?.trim();
     if (!apiKey) return null;
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
 
     const prompt = `You are an elite sports AI coach. Generate a personalized training plan for an athlete with these stats (each 0-100):
 - Stamina: ${stamina}
@@ -90,19 +89,33 @@ Rules:
 - Be creative with workout names — don't use generic names
 - Calories should be realistic for the workout duration and intensity`;
 
-    try {
-        const result = await model.generateContent(prompt);
-        const text = result.response.text();
-        
-        // Clean up response — remove markdown code fences if present
-        const cleaned = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-        const parsed = JSON.parse(cleaned);
-        
-        return parsed;
-    } catch (error) {
-        console.error('Gemini AI error:', error.message);
-        return null;
+    const models = ['gemini-2.5-flash-lite', 'gemini-2.5-flash', 'gemini-2.5-pro'];
+
+    for (const modelName of models) {
+        for (let attempt = 0; attempt < 3; attempt++) {
+            try {
+                const model = genAI.getGenerativeModel({ model: modelName });
+                const result = await model.generateContent(prompt);
+                const text = result.response.text();
+
+                const cleaned = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+                try {
+                    const parsed = JSON.parse(cleaned);
+                    if (parsed?.todayWorkout && parsed?.upcomingWorkouts) {
+                        return parsed;
+                    }
+                } catch (e) {
+                    console.error("JSON parse failed:", cleaned);
+                }
+
+            } catch (error) {
+                console.error(`Gemini error (${modelName}, attempt ${attempt + 1}):`, error.message);
+                await new Promise(res => setTimeout(res, 1000 * (attempt + 1)));
+            }
+        }
     }
+
+    return null; // Fallback to algorithmic logic if all models fail
 }
 
 // ─── Fallback: original algorithmic logic ──────────────────────────────────────
@@ -229,7 +242,7 @@ const updateTrainingProgress = asyncHandler(async (req, res) => {
         }
 
         workout.status = status || workout.status;
-        
+
         const updatedWorkout = await workout.save();
         res.json(updatedWorkout);
     } else {

@@ -14,16 +14,62 @@ import {
     LogOut,
     ChevronDown,
     Trophy,
+    Bot,
+    CalendarDays,
+    ClipboardList,
+    BookOpen,
+    MessageSquare,
+    Users,
+    Utensils,
+    Video,
+    Timer,
+    Scale,
+    HeartPulse,
+    Calculator,
+    Shield,
 } from "lucide-react"
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom"
 import { useTheme } from "../components/ThemeProvider"
 
-const navigation = [
-    { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
-    { name: "Workouts", href: "/dashboard/workouts", icon: Dumbbell },
-    { name: "Analytics", href: "/dashboard/analytics", icon: LineChart },
-    { name: "Leaderboard", href: "/dashboard/leaderboard", icon: Trophy },
-    { name: "Settings", href: "/dashboard/settings", icon: Settings },
+const navSections = [
+    {
+        title: "Training",
+        items: [
+            { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
+            { name: "Workouts", href: "/dashboard/workouts", icon: Dumbbell },
+            { name: "Calendar", href: "/dashboard/calendar", icon: CalendarDays },
+            { name: "Workout Log", href: "/dashboard/logs", icon: ClipboardList },
+            { name: "Exercises", href: "/dashboard/exercises", icon: BookOpen },
+        ],
+    },
+    {
+        title: "Gym Lab & Recovery",
+        items: [
+            { name: "Timers", href: "/dashboard/timers", icon: Timer },
+            { name: "Plate Calc", href: "/dashboard/plate-calculator", icon: Scale },
+            { name: "Recovery", href: "/dashboard/recovery", icon: HeartPulse },
+            { name: "Calculators", href: "/dashboard/calculators", icon: Calculator },
+            { name: "Nutrition", href: "/dashboard/nutrition", icon: Utensils },
+        ],
+    },
+    {
+        title: "Team & Coaching",
+        items: [
+            { name: "Messages", href: "/dashboard/messages", icon: MessageSquare },
+            { name: "Community", href: "/dashboard/community", icon: Users },
+            { name: "Video Review", href: "/dashboard/video-review", icon: Video },
+            { name: "Coach Hub", href: "/dashboard/roster", icon: Shield },
+        ],
+    },
+    {
+        title: "Analytics & AI",
+        items: [
+            { name: "Analytics", href: "/dashboard/analytics", icon: LineChart },
+            { name: "AI Coach", href: "/dashboard/ai-coach", icon: Bot },
+            { name: "Leaderboard", href: "/dashboard/leaderboard", icon: Trophy },
+            { name: "Settings", href: "/dashboard/settings", icon: Settings },
+        ],
+    },
 ]
 
 export function DashboardLayout() {
@@ -111,24 +157,34 @@ export function DashboardLayout() {
                     <span className="font-bold text-2xl tracking-tight">ApexAI</span>
                 </Link>
 
-                <nav className="flex-1 px-4 py-8 md:py-4 space-y-2">
-                    {navigation.map((item) => {
-                        const isActive = location.pathname === item.href
-                        return (
-                            <Link
-                                key={item.name}
-                                to={item.href}
-                                onClick={() => setIsSidebarOpen(false)}
-                                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium ${isActive
-                                    ? "bg-brand-500 text-white shadow-lg shadow-brand-500/25"
-                                    : "text-foreground/70 hover:bg-foreground/5 hover:text-foreground"
-                                    }`}
-                            >
-                                <item.icon className={`h-5 w-5 ${isActive ? "text-white" : ""}`} />
-                                {item.name}
-                            </Link>
-                        )
-                    })}
+                <nav className="flex-1 px-3 py-4 space-y-4 overflow-y-auto scrollbar-thin">
+                    {navSections.map((section, sIdx) => (
+                        <div key={sIdx} className="space-y-1">
+                            <span className="text-[10px] uppercase font-extrabold text-foreground/40 tracking-wider px-3 block">
+                                {section.title}
+                            </span>
+                            <div className="space-y-0.5">
+                                {section.items.map((item) => {
+                                    const isActive = location.pathname === item.href
+                                    return (
+                                        <Link
+                                            key={item.name}
+                                            to={item.href}
+                                            onClick={() => setIsSidebarOpen(false)}
+                                            className={`flex items-center gap-3 px-3 py-2 rounded-xl transition-all text-xs font-semibold ${
+                                                isActive
+                                                    ? "bg-brand-500 text-white shadow-md shadow-brand-500/25"
+                                                    : "text-foreground/70 hover:bg-foreground/5 hover:text-foreground"
+                                            }`}
+                                        >
+                                            <item.icon className={`h-4 w-4 ${isActive ? "text-white" : "text-brand-500/70"}`} />
+                                            {item.name}
+                                        </Link>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    ))}
                 </nav>
 
                 <div className="p-4 border-t border-border/40">

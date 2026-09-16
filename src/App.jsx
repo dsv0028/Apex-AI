@@ -13,6 +13,19 @@ import { Workouts } from "./pages/Workouts"
 import { Analytics } from "./pages/Analytics"
 import { Settings } from "./pages/Settings"
 import { Leaderboard } from "./pages/Leaderboard"
+import { AIChat } from "./pages/AIChat"
+import { Calendar } from "./pages/Calendar"
+import { WorkoutLogs } from "./pages/WorkoutLogs"
+import { ExerciseLibrary } from "./pages/ExerciseLibrary"
+import { Messages } from "./pages/Messages"
+import { Community } from "./pages/Community"
+import { Nutrition } from "./pages/Nutrition"
+import { VideoReview } from "./pages/VideoReview"
+import { TimerSuite } from "./pages/TimerSuite"
+import { PlateCalculator } from "./pages/PlateCalculator"
+import { Recovery } from "./pages/Recovery"
+import { Calculators } from "./pages/Calculators"
+import { CoachRoster } from "./pages/CoachRoster"
 import { PrivateRoute } from "./components/PrivateRoute"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
@@ -50,8 +63,21 @@ function App() {
                         }>
                             <Route index element={<Dashboard />} />
                             <Route path="workouts" element={<Workouts />} />
+                            <Route path="calendar" element={<Calendar />} />
+                            <Route path="logs" element={<WorkoutLogs />} />
+                            <Route path="exercises" element={<ExerciseLibrary />} />
+                            <Route path="timers" element={<TimerSuite />} />
+                            <Route path="plate-calculator" element={<PlateCalculator />} />
+                            <Route path="recovery" element={<Recovery />} />
+                            <Route path="calculators" element={<Calculators />} />
+                            <Route path="roster" element={<CoachRoster />} />
+                            <Route path="messages" element={<Messages />} />
+                            <Route path="community" element={<Community />} />
+                            <Route path="nutrition" element={<Nutrition />} />
+                            <Route path="video-review" element={<VideoReview />} />
                             <Route path="analytics" element={<Analytics />} />
                             <Route path="leaderboard" element={<Leaderboard />} />
+                            <Route path="ai-coach" element={<AIChat />} />
                             <Route path="settings" element={<Settings />} />
                         </Route>
                     </Routes>

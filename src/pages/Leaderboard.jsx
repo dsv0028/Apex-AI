@@ -182,74 +182,89 @@ export function Leaderboard() {
                     ))}
                 </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {/* Reorder for visual: 2nd, 1st, 3rd */}
-                    {[podium[1], podium[0], podium[2]].filter(Boolean).map((entry, idx) => {
-                        const isFirst = idx === 1
-                        const colors = [
-                            "from-gray-300/20 to-gray-400/5 border-gray-400/30",   // 2nd
-                            "from-amber-400/20 to-yellow-500/5 border-amber-500/40", // 1st
-                            "from-amber-700/15 to-amber-800/5 border-amber-700/30", // 3rd
-                        ]
-                        const glowColors = [
-                            "shadow-gray-400/10",
-                            "shadow-amber-500/20",
-                            "shadow-amber-700/10",
-                        ]
-                        return (
-                            <motion.div
-                                key={entry._id}
-                                variants={item}
-                                className={`glass p-6 rounded-3xl bg-gradient-to-b ${colors[idx]} border shadow-xl ${glowColors[idx]} flex flex-col items-center text-center ${isFirst ? "md:-mt-4 md:scale-105" : ""
-                                    } relative overflow-hidden`}
-                            >
-                                {isFirst && (
-                                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-400" />
-                                )}
-                                <RankBadge rank={entry.rank} />
-                                <div className="mt-4 mb-2">
-                                    {entry.profileImage ? (
-                                        <img
-                                            src={entry.profileImage}
-                                            alt={entry.name}
-                                            className="h-16 w-16 rounded-full object-cover border-2 border-background shadow-lg mx-auto"
-                                        />
-                                    ) : (
-                                        <div className="h-16 w-16 rounded-full bg-brand-500/20 flex items-center justify-center text-brand-500 font-bold text-xl mx-auto border-2 border-background shadow-lg">
-                                            {entry.name.charAt(0).toUpperCase()}
-                                        </div>
+                <div className={`grid gap-4 ${podium.length === 1 ? "grid-cols-1 max-w-sm mx-auto" : podium.length === 2 ? "grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto" : "grid-cols-1 md:grid-cols-3"}`}>
+                    {/* Visual arrangement based on length so 1st place is always prominent */}
+                    {(() => {
+                        let visualPodium = [];
+                        if (podium.length === 1) {
+                            visualPodium = [ { entry: podium[0], place: 'first' } ];
+                        } else if (podium.length === 2) {
+                            visualPodium = [ { entry: podium[1], place: 'second' }, { entry: podium[0], place: 'first' } ];
+                        } else {
+                            visualPodium = [ { entry: podium[1], place: 'second' }, { entry: podium[0], place: 'first' }, { entry: podium[2], place: 'third' } ];
+                        }
+
+                        return visualPodium.map(({ entry, place }) => {
+                            const isFirst = place === 'first';
+                            
+                            let colors = "";
+                            let glowColors = "";
+                            
+                            if (place === 'first') {
+                                colors = "from-amber-400/20 to-yellow-500/5 border-amber-500/40";
+                                glowColors = "shadow-amber-500/20";
+                            } else if (place === 'second') {
+                                colors = "from-gray-300/20 to-gray-400/5 border-gray-400/30";
+                                glowColors = "shadow-gray-400/10";
+                            } else {
+                                colors = "from-amber-700/15 to-amber-800/5 border-amber-700/30";
+                                glowColors = "shadow-amber-700/10";
+                            }
+
+                            return (
+                                <motion.div
+                                    key={entry._id}
+                                    variants={item}
+                                    className={`glass p-6 rounded-3xl bg-gradient-to-b ${colors} border shadow-xl ${glowColors} flex flex-col items-center text-center ${isFirst && podium.length === 3 ? "md:-mt-4 md:scale-105" : ""} relative overflow-hidden`}
+                                >
+                                    {isFirst && (
+                                        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-400" />
                                     )}
-                                </div>
-                                <h3 className="text-lg font-bold mt-1">{entry.name}</h3>
-                                <p className="text-sm text-foreground/50 mb-4">{entry.sport}</p>
-                                <div className="text-3xl font-black text-brand-500">
-                                    {entry.compositeScore}
-                                    <span className="text-sm text-foreground/50 font-medium ml-1">pts</span>
-                                </div>
-                                <div className="mt-4 grid grid-cols-3 gap-3 w-full">
-                                    <div className="text-center">
-                                        <p className="text-xs text-foreground/50">Avg Score</p>
-                                        <p className="font-bold text-sm">{entry.avgScore}</p>
+                                    <RankBadge rank={entry.rank} />
+                                    <div className="mt-4 mb-2">
+                                        {entry.profileImage ? (
+                                            <img
+                                                src={entry.profileImage}
+                                                alt={entry.name}
+                                                className="h-16 w-16 rounded-full object-cover border-2 border-background shadow-lg mx-auto"
+                                            />
+                                        ) : (
+                                            <div className="h-16 w-16 rounded-full bg-brand-500/20 flex items-center justify-center text-brand-500 font-bold text-xl mx-auto border-2 border-background shadow-lg">
+                                                {entry.name.charAt(0).toUpperCase()}
+                                            </div>
+                                        )}
                                     </div>
-                                    <div className="text-center">
-                                        <p className="text-xs text-foreground/50">Sessions</p>
-                                        <p className="font-bold text-sm">{entry.totalSessions}</p>
+                                    <h3 className="text-lg font-bold mt-1">{entry.name}</h3>
+                                    <p className="text-sm text-foreground/50 mb-4">{entry.sport}</p>
+                                    <div className="text-3xl font-black text-brand-500">
+                                        {entry.compositeScore}
+                                        <span className="text-sm text-foreground/50 font-medium ml-1">pts</span>
                                     </div>
-                                    <div className="text-center">
-                                        <p className="text-xs text-foreground/50">Streak</p>
-                                        <p className="font-bold text-sm flex items-center justify-center gap-1">
-                                            {entry.streak} <Flame className="h-3 w-3 text-orange-500" />
-                                        </p>
+                                    <div className="mt-4 grid grid-cols-3 gap-3 w-full">
+                                        <div className="text-center">
+                                            <p className="text-xs text-foreground/50">Avg Score</p>
+                                            <p className="font-bold text-sm">{entry.avgScore}</p>
+                                        </div>
+                                        <div className="text-center">
+                                            <p className="text-xs text-foreground/50">Sessions</p>
+                                            <p className="font-bold text-sm">{entry.totalSessions}</p>
+                                        </div>
+                                        <div className="text-center">
+                                            <p className="text-xs text-foreground/50">Streak</p>
+                                            <p className="font-bold text-sm flex items-center justify-center gap-1">
+                                                {entry.streak} <Flame className="h-3 w-3 text-orange-500" />
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            </motion.div>
-                        )
+                                </motion.div>
+                            )
+                        })
                     })}
                 </div>
             )}
 
             {/* ── Full Rankings Table ── */}
-            <motion.div variants={item} className="glass rounded-3xl overflow-hidden">
+            <motion.div variants={item} className="glass rounded-3xl overflow-hidden mt-0 lg:-mt-4 relative z-10">
                 <div className="p-6 border-b border-border/30">
                     <h2 className="text-xl font-bold flex items-center gap-2">
                         <Star className="h-5 w-5 text-brand-500" />

@@ -18,7 +18,7 @@ const getAthletes = asyncHandler(async (req, res) => {
 // @access  Private/Coach
 const getAthletePerformance = asyncHandler(async (req, res) => {
     const { athleteId } = req.params;
-    
+
     // Verify the athlete exists and has role 'athlete'
     const athlete = await User.findById(athleteId);
     if (!athlete || athlete.role !== 'athlete') {
@@ -36,7 +36,7 @@ const getAthletePerformance = asyncHandler(async (req, res) => {
     const weeklyData = sorted.map((p) => {
         const dateObj = new Date(p.date);
         const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        
+
         return {
             id: p._id,
             day: dayNames[dateObj.getDay()],
